@@ -1,0 +1,21 @@
+{
+  "name": "@puffmeow/rusty-schema2ts-linux-arm64-musl",
+  "version": "0.0.0",
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "arm64"
+  ],
+  "main": "rusty-schema2ts.linux-arm64-musl.node",
+  "files": [
+    "rusty-schema2ts.linux-arm64-musl.node"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  },
+  "libc": [
+    "musl"
+  ]
+}
