@@ -24,7 +24,7 @@
       "properties": {
         "hairColor": {
           "type": "string",
-          "enum": ["color1", "color2", "color3"]
+          "enum": ["color1", "color2"]
         }
       }
     }

@@ -1,4 +1,6 @@
-export type THairColor = "color1" | "color2" | "color3";
+export type THairColor2 = 'color1' | 'color2';
+
+export type THairColor = 'color1' | 'color2' | 'color3';
 
 export interface ISchema {
   hairColor?: THairColor;
@@ -6,5 +8,5 @@ export interface ISchema {
 }
 
 export interface INestedObject {
-  hairColor?: THairColor;
+  hairColor?: THairColor2;
 }
