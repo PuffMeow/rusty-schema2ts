@@ -13,19 +13,19 @@ If you want the same feature that can work in Browser or all platforms, you can 
 npm
 
 ```
-npm i @puffmeow/schema2ts
+npm i @puffmeow/rusty-schema2ts
 ```
 
 pnpm
 
 ```
-pnpm i @puffmeow/schema2ts
+pnpm i @puffmeow/rusty-schema2ts
 ```
 
 yarn
 
 ```
-yarn add @puffmeow/schema2ts
+yarn add @puffmeow/rusty-schema2ts
 ```
 
 ## Quick start
@@ -33,11 +33,11 @@ yarn add @puffmeow/schema2ts
 It's really easy to use.
 
 ```ts
-import schema2ts from "@puffmeow/schema2ts";
+import { rustySchemaToTs } from "@puffmeow/rusty-schema2ts";
 
 // The "options" we will introduce later
-// schema2ts(schema: string, options?: IOptions): string
-schema2ts(`your schema`, options);
+// rustySchemaToTs(schema: string, options?: IOptions): string
+rustySchemaToTs(`your schema`, options);
 ```
 
 If you have a schema like this:

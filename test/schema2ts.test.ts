@@ -13,7 +13,9 @@ const expectCorrectOutput = (
 ) => {
   const input = readFile(inputPath);
   const output = readFile(outputPath);
+  const now = performance.now();
   expect(rustySchemaToTs(input, options)).toBe(output);
+  console.log(`${inputPath}, Run time:`, performance.now() - now);
 };
 
 describe("check whether output is correctly when use default config", () => {
