@@ -4,7 +4,7 @@ This is a tool that can help you transform your JSON Schema to TypeScript interf
 
 This is written by Rust(napi-rs) and only support in Node.js(Support for all platforms except Android).
 
-If you want the same feature that can work in Browser or all platforms, you can see [schema2ts](https://github.com/PuffMeow/schema2ts)
+If you want the same feature that can work in Browser or all other platforms, you can see [schema2ts](https://github.com/PuffMeow/schema2ts)
 
 [Git: rusty-schema2ts](https://github.com/PuffMeow/rusty-schema2ts). If you like it, please give me a little star♥
 
