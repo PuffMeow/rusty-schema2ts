@@ -1,0 +1,32 @@
+{
+  "title": "Schema",
+  "type": "object",
+  "properties": {
+    "hairColor": {
+      "enum": [
+        {
+          "title": "hair color1",
+          "value": "color1"
+        },
+        {
+          "title": "hair color2",
+          "value": "color2"
+        },
+        {
+          "title": "hair color3",
+          "value": "color3"
+        }
+      ],
+      "type": "string"
+    },
+    "nestedObject": {
+      "type": "object",
+      "properties": {
+        "hairColor": {
+          "type": "string",
+          "enum": ["color1", "color2"]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "title": "Schema",
+  "type": "object",
+  "properties": {
+    "firstName": {
+      "title": "This is the first name",
+      "type": "string"
+    },
+    "lastName": {
+      "title": "This is the last name",
+      "type": "string"
+    },
+    "age": {
+      "title": "This is the age",
+      "type": "number"
+    },
+    "hairColor": {
+      "title": "This is the hair color",
+      "enum": [
+        {
+          "title": "hair color1",
+          "value": "color1"
+        },
+        {
+          "title": "hair color2",
+          "value": "color2"
+        },
+        {
+          "title": "hair color3",
+          "value": "color3"
+        }
+      ],
+      "type": "string"
+    },
+    "obj": {
+      "type": "object",
+      "title": "Object test",
+      "properties": {
+        "key1": {
+          "title": "This is the key1",
+          "type": "string"
+        },
+        "key2": {
+          "title": "This is the key2",
+          "type": "number"
+        },
+        "key3": {
+          "title": "This is the key3",
+          "type": "boolean"
+        }
+      }
+    },
+    "arr": {
+      "type": "array",
+      "title": "Arr test",
+      "items": {
+        "type": "object",
+        "title": "Nested array items",
+        "properties": {
+          "arr1": {
+            "title": "This is the arr1",
+            "type": "string"
+          },
+          "arr2": {
+            "title": "This is the arr2",
+            "type": "number"
+          },
+          "arr3": {
+            "type": "array",
+            "title": "Test arr3",
+            "items": {
+              "type": "object",
+              "title": "Test nested arr3 items",
+              "properties": {
+                "enen1": {
+                  "title": "This is the enen1",
+                  "type": "string"
+                },
+                "enen2": {
+                  "title": "This is the enen2",
+                  "type": "number"
+                },
+                "enen3": {
+                  "title": "This is the enen3",
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
