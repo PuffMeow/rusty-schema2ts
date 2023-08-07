@@ -1,8 +1,11 @@
 {
   "name": "@puffmeow/rusty-schema2ts",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "main": "index.js",
   "types": "index.d.ts",
+  "files": [
+    "README.md"
+  ],
   "napi": {
     "name": "rusty-schema2ts",
     "triples": {
