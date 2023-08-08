@@ -17,7 +17,7 @@ use util::{
 #[macro_use]
 extern crate napi_derive;
 
-#[napi(ts_args_type = "schema: string, options?: IOptions")]
+#[napi(js_name = "schema2ts", ts_args_type = "schema: string, options?: IOptions")]
 pub fn schema_2_ts(schema: String, options: Option<Config>) -> String {
   schema_to_ts(schema.as_str(), options)
 }

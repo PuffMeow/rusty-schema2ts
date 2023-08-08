@@ -252,6 +252,6 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { schema2Ts } = nativeBinding
+const { schema2ts } = nativeBinding
 
-module.exports.schema2Ts = schema2Ts
+module.exports.schema2ts = schema2ts
