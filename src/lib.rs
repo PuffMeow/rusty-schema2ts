@@ -1,12 +1,9 @@
 #![deny(clippy::all)]
 mod structure;
 mod util;
-
 use napi;
-use std::cell::RefCell;
 use std::collections::HashMap;
 use std::collections::{HashSet, VecDeque};
-use std::rc::Rc;
 use structure::default_config::{
   DEFAULT_ENUM_PREFFIX, DEFAULT_EXPLAIN, DEFAULT_GEN_COMMENT, DEFAULT_IGNORE_KEYS, DEFAULT_INDENT,
   DEFAULT_OPTIONAL, DEFAULT_PARSE_ERROR_MESSAGE, DEFAULT_PREFFIX, DEFAULT_SEMI,
@@ -38,8 +35,7 @@ fn schema_to_ts(schema: &str, options: Option<Config>) -> String {
 
   let mut interfaces: VecDeque<String> = VecDeque::new();
   let mut cache_enum_types: HashSet<String> = HashSet::new();
-  let enum_type_key_num_map: Rc<RefCell<HashMap<String, i32>>> =
-    Rc::new(RefCell::new(HashMap::new()));
+  let mut enum_type_key_num_map: HashMap<String, i32> = HashMap::new();
 
   let key = if check_is_valid_title(json_schema.title.as_deref()) {
     json_schema.title.as_deref().unwrap_or("Schema")
@@ -52,7 +48,7 @@ fn schema_to_ts(schema: &str, options: Option<Config>) -> String {
     key,
     &mut interfaces,
     &mut cache_enum_types,
-    &enum_type_key_num_map,
+    &mut enum_type_key_num_map,
     &opts,
   );
 
@@ -80,7 +76,7 @@ fn get_type(
   prop: Option<&JsonSchema>,
   key: &str,
   cache_enum_types: &HashSet<String>,
-  enum_type_key_num_map: &Rc<RefCell<HashMap<String, i32>>>,
+  enum_type_key_num_map: &mut HashMap<String, i32>,
   opts: &Config,
 ) -> String {
   let mut capitalized_key = capitalize(key);
@@ -90,7 +86,6 @@ fn get_type(
     | Some("null") => {
       let prop = prop.unwrap();
       if let Some(_) = prop.enum_vals {
-        let mut enum_type_key_num_map = enum_type_key_num_map.borrow_mut();
         if enum_type_key_num_map.contains_key(key) {
           let key_num = enum_type_key_num_map.get(key).unwrap_or(&1);
           let key_num = *key_num + 1;
@@ -99,7 +94,7 @@ fn get_type(
           enum_type_key_num_map.insert(key.to_string(), 1);
         }
 
-        let enum_type = generate_enum(prop, key, String::new(), opts);
+        let enum_type = generate_enum(prop, key, "", opts);
 
         if !cache_enum_types.contains(&enum_type) {
           let num = enum_type_key_num_map.get(key).unwrap_or(&1);
@@ -140,16 +135,16 @@ fn generate_root_interface(
   schema: &JsonSchema,
   name: &str,
   cache_enum_types: &HashSet<String>,
-  enum_type_key_num_map: &Rc<RefCell<HashMap<String, i32>>>,
+  enum_type_key_num_map: &mut HashMap<String, i32>,
   opts: &Config,
 ) -> String {
-  let mut interface_str = String::new();
+  let mut interface_str = Vec::new();
 
   if opts.is_gen_comment.clone().unwrap_or(DEFAULT_GEN_COMMENT) {
-    interface_str.push_str(&generate_comment(schema, 0));
+    interface_str.push(generate_comment(schema, 0));
   }
 
-  interface_str.push_str(&format!(
+  interface_str.push(format!(
     "export interface {}{} {{\n",
     &opts.prefix.clone().as_deref().unwrap_or(DEFAULT_PREFFIX),
     capitalize(name)
@@ -167,18 +162,18 @@ fn generate_root_interface(
         Some(prop),
         &key,
         &cache_enum_types,
-        &enum_type_key_num_map,
+        enum_type_key_num_map,
         &opts,
       );
       // generate comment
       if opts.is_gen_comment.clone().unwrap_or(DEFAULT_GEN_COMMENT) {
-        interface_str.push_str(&generate_comment(
+        interface_str.push(generate_comment(
           prop,
           opts.indent.clone().unwrap_or(DEFAULT_INDENT),
         ));
       }
 
-      interface_str.push_str(&format!(
+      interface_str.push(format!(
         "{}{}{}: {}{}\n",
         get_indent(opts.indent.clone().unwrap_or(DEFAULT_INDENT)),
         key,
@@ -197,11 +192,11 @@ fn generate_root_interface(
     }
   }
 
-  interface_str.push_str("}\n");
-  interface_str
+  interface_str.push("}\n".to_string());
+  interface_str.join("")
 }
 
-fn generate_enum(schema: &JsonSchema, key: &str, suffix_num: String, opts: &Config) -> String {
+fn generate_enum(schema: &JsonSchema, key: &str, suffix_num: &str, opts: &Config) -> String {
   if let Some(enum_vals) = &schema.enum_vals {
     format!(
       "export type {}{}{} = {}{}\n",
@@ -229,14 +224,14 @@ fn generate_interface(
   key: &str,
   interfaces: &mut VecDeque<String>,
   cache_enum_types: &mut HashSet<String>,
-  enum_type_key_num_map: &Rc<RefCell<HashMap<String, i32>>>,
+  enum_type_key_num_map: &mut HashMap<String, i32>,
   opts: &Config,
 ) {
   let interface_str = generate_root_interface(
     &schema,
     &key,
     &cache_enum_types,
-    &enum_type_key_num_map,
+    enum_type_key_num_map,
     &opts,
   );
 
@@ -264,13 +259,12 @@ fn generate_interface(
       }
 
       if let Some(_) = &prop.enum_vals {
-        let mut enum_type = generate_enum(prop, key, String::from(""), &opts);
+        let mut enum_type = generate_enum(prop, key, "", &opts);
 
         if !cache_enum_types.contains(&enum_type) {
-          let enum_type_key_num_map = enum_type_key_num_map.borrow();
           let num = enum_type_key_num_map.get(key).unwrap_or(&1);
           if *num > 1 {
-            enum_type = generate_enum(prop, key, (*num).to_string(), &opts);
+            enum_type = generate_enum(prop, key, &(*num).to_string(), &opts);
           }
           cache_enum_types.insert(enum_type.clone());
           interfaces.push_front(enum_type);
@@ -294,7 +288,7 @@ fn generate_interface(
           &capitalize(key),
           interfaces,
           cache_enum_types,
-          &enum_type_key_num_map,
+          enum_type_key_num_map,
           opts,
         );
       }
