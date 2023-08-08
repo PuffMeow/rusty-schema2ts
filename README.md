@@ -28,16 +28,32 @@ yarn
 yarn add @puffmeow/rusty-schema2ts
 ```
 
+## Support matrix
+
+|                              | node12 | node14 | node16 | node18 |
+| ---------------------------- | ------ | ------ | ------ | ------ |
+| Windows x64                  | ✓      | ✓      | ✓      | ✓      |
+| Windows x32                  | ✓      | ✓      | ✓      | ✓      |
+| Windows arm64                | ✓      | ✓      | ✓      | ✓      |
+| macOS x64                    | ✓      | ✓      | ✓      | ✓      |
+| macOS arm64 (m chips)        | ✓      | ✓      | ✓      | ✓      |
+| Linux x64 gnu (glibc 2.17)   | ✓      | ✓      | ✓      | ✓      |
+| Linux x64 musl               | ✓      | ✓      | ✓      | ✓      |
+| Linux arm gnu (glibc 2.17)   | ✓      | ✓      | ✓      | ✓      |
+| Linux arm64 gnu (glibc 2.17) | ✓      | ✓      | ✓      | ✓      |
+| Linux arm64 musl             | ✓      | ✓      | ✓      | ✓      |
+| FreeBSD x64                  | ✓      | ✓      | ✓      | ✓      |
+
 ## Quick start
 
 It's really easy to use.
 
 ```ts
-import { rustySchemaToTs } from "@puffmeow/rusty-schema2ts";
+import { schemaToTs } from "@puffmeow/rusty-schema2ts";
 
 // The "options" we will introduce later
-// rustySchemaToTs(schema: string, options?: IOptions): string
-rustySchemaToTs(`your schema`, options);
+// schemaToTs(schema: string, options?: IOptions): string
+schemaToTs(`your schema`, options);
 ```
 
 If you have a schema like this:

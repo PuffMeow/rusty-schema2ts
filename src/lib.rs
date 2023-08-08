@@ -21,11 +21,11 @@ use util::{
 extern crate napi_derive;
 
 #[napi(ts_args_type = "schema: string, options?: IOptions")]
-pub fn rusty_schema_to_ts(schema: String, options: Option<Config>) -> String {
-  schema_to_ts(schema.as_str(), options)
+pub fn schema_to_ts(schema: String, options: Option<Config>) -> String {
+  private_schema_to_ts(schema.as_str(), options)
 }
 
-fn schema_to_ts(schema: &str, options: Option<Config>) -> String {
+fn private_schema_to_ts(schema: &str, options: Option<Config>) -> String {
   let opts = options.unwrap_or_default();
   let json_schema: JsonSchema = match parse_json(schema) {
     Some(parsed) => parsed,

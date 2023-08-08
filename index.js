@@ -252,6 +252,6 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { rustySchemaToTs } = nativeBinding
+const { schemaToTs } = nativeBinding
 
-module.exports.rustySchemaToTs = rustySchemaToTs
+module.exports.schemaToTs = schemaToTs
