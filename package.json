@@ -23,6 +23,14 @@
       ]
     }
   },
+  "keywords": [
+    "jsonschema to interface",
+    "jsonschema to ts",
+    "schema to typescript",
+    "schema to ts",
+    "schema to interface",
+    "schema to type"
+  ],
   "license": "MIT",
   "devDependencies": {
     "@napi-rs/cli": "^2.16.2",
