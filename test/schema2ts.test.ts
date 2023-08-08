@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 import fs from "fs";
 import path from "path";
-import { schemaToTs, IOptions } from "../index";
+import { schema2Ts, IOptions } from "../index";
 
 const readFile = (pathToFind: string) =>
   fs.readFileSync(path.join(__dirname, pathToFind), "utf-8");
@@ -13,7 +13,7 @@ const expectCorrectOutput = (
 ) => {
   const input = readFile(inputPath);
   const output = readFile(outputPath);
-  expect(schemaToTs(input, options)).toBe(output);
+  expect(schema2Ts(input, options)).toBe(output);
 };
 
 describe("check whether output is correctly when use default config", () => {

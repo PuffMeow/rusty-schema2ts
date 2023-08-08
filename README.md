@@ -49,11 +49,11 @@ yarn add @puffmeow/rusty-schema2ts
 It's really easy to use.
 
 ```ts
-import { schemaToTs } from "@puffmeow/rusty-schema2ts";
+import { schema2Ts } from "@puffmeow/rusty-schema2ts";
 
 // The "options" we will introduce later
-// schemaToTs(schema: string, options?: IOptions): string
-schemaToTs(`your schema`, options);
+// schema2Ts(schema: string, options?: IOptions): string
+schema2Ts(`your schema`, options);
 ```
 
 If you have a schema like this:

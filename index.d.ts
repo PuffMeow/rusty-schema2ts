@@ -28,4 +28,4 @@ export interface IOptions {
    */
   ignoreKeys?: Array<string>
 }
-export function schemaToTs(schema: string, options?: IOptions): string
+export function schema2Ts(schema: string, options?: IOptions): string
