@@ -54,17 +54,16 @@ fn schema_to_ts(schema: &str, options: Option<Config>) -> String {
 
   if !opts
     .explain
-    .clone()
     .as_deref()
     .unwrap_or(DEFAULT_EXPLAIN)
     .is_empty()
   {
-    interfaces.push_front(opts.explain.clone().unwrap_or(DEFAULT_EXPLAIN.to_string()));
+    interfaces.push_front(opts.explain.unwrap_or(DEFAULT_EXPLAIN.to_string()));
   }
 
   let mut output = Vec::from(interfaces).join("\n");
 
-  if !opts.semi.clone().unwrap_or(DEFAULT_SEMI) {
+  if !opts.semi.unwrap_or(DEFAULT_SEMI) {
     // remove all semicolons
     output = output.replace(';', "");
   }
@@ -108,23 +107,22 @@ fn get_type(
           "{}{}",
           opts
             .prefix_of_enum
-            .clone()
             .as_deref()
             .unwrap_or(DEFAULT_ENUM_PREFFIX),
           capitalized_key
         )
       } else {
-        prop.json_type.clone().unwrap_or_else(|| "any".to_string())
+        prop.json_type.to_owned().unwrap_or("any".to_string())
       }
     }
     Some("object") => format!(
       "{}{}",
-      opts.prefix.clone().as_deref().unwrap_or(DEFAULT_PREFFIX),
+      opts.prefix.as_deref().unwrap_or(DEFAULT_PREFFIX),
       capitalized_key
     ),
     Some("array") => format!(
       "{}{}[]",
-      opts.prefix.clone().as_deref().unwrap_or(DEFAULT_PREFFIX),
+      opts.prefix.as_deref().unwrap_or(DEFAULT_PREFFIX),
       capitalized_key
     ),
     _ => "any".to_string(),
@@ -140,19 +138,19 @@ fn generate_root_interface(
 ) -> String {
   let mut interface_str = Vec::new();
 
-  if opts.is_gen_comment.clone().unwrap_or(DEFAULT_GEN_COMMENT) {
+  if opts.is_gen_comment.unwrap_or(DEFAULT_GEN_COMMENT) {
     interface_str.push(generate_comment(schema, 0));
   }
 
   interface_str.push(format!(
     "export interface {}{} {{\n",
-    &opts.prefix.clone().as_deref().unwrap_or(DEFAULT_PREFFIX),
+    &opts.prefix.as_deref().unwrap_or(DEFAULT_PREFFIX),
     capitalize(name)
   ));
 
   if let Some(properties) = &schema.properties {
     for (key, prop) in properties {
-      if let Some(ignore_keys) = &opts.ignore_keys.clone() {
+      if let Some(ignore_keys) = &opts.ignore_keys {
         if ignore_keys.contains(&key) {
           continue;
         }
@@ -166,24 +164,24 @@ fn generate_root_interface(
         &opts,
       );
       // generate comment
-      if opts.is_gen_comment.clone().unwrap_or(DEFAULT_GEN_COMMENT) {
+      if opts.is_gen_comment.unwrap_or(DEFAULT_GEN_COMMENT) {
         interface_str.push(generate_comment(
           prop,
-          opts.indent.clone().unwrap_or(DEFAULT_INDENT),
+          opts.indent.unwrap_or(DEFAULT_INDENT),
         ));
       }
 
       interface_str.push(format!(
         "{}{}{}: {}{}\n",
-        get_indent(opts.indent.clone().unwrap_or(DEFAULT_INDENT)),
+        get_indent(opts.indent.unwrap_or(DEFAULT_INDENT)),
         key,
-        if opts.optional.clone().unwrap_or(DEFAULT_OPTIONAL) {
+        if opts.optional.unwrap_or(DEFAULT_OPTIONAL) {
           "?"
         } else {
           ""
         },
         schema_type,
-        if opts.semi.clone().unwrap_or(DEFAULT_SEMI) {
+        if opts.semi.unwrap_or(DEFAULT_SEMI) {
           ";"
         } else {
           ""
@@ -202,13 +200,12 @@ fn generate_enum(schema: &JsonSchema, key: &str, suffix_num: &str, opts: &Config
       "export type {}{}{} = {}{}\n",
       opts
         .prefix_of_enum
-        .clone()
         .as_deref()
         .unwrap_or(DEFAULT_ENUM_PREFFIX),
       capitalize(key),
       suffix_num,
       generate_enum_variants(enum_vals),
-      if opts.semi.clone().unwrap_or(DEFAULT_SEMI) {
+      if opts.semi.unwrap_or(DEFAULT_SEMI) {
         ";"
       } else {
         ""
@@ -235,7 +232,7 @@ fn generate_interface(
     &opts,
   );
 
-  let plain_interface_str = if opts.is_gen_comment.clone().unwrap_or(DEFAULT_GEN_COMMENT) {
+  let plain_interface_str = if opts.is_gen_comment.unwrap_or(DEFAULT_GEN_COMMENT) {
     remove_comment(&interface_str)
   } else {
     interface_str.clone()
@@ -250,7 +247,6 @@ fn generate_interface(
     for (key, prop) in properties {
       if opts
         .ignore_keys
-        .clone()
         .as_deref()
         .unwrap_or(&DEFAULT_IGNORE_KEYS)
         .contains(&key)
