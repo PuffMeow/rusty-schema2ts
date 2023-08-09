@@ -10,7 +10,7 @@ Git repository: [rusty-schema2ts](https://github.com/PuffMeow/rusty-schema2ts). 
 
 ## TypeScript vs Rust
 
-You can find bench in
+You can find [benchmark here](https://github.com/PuffMeow/rusty-schema2ts/blob/main/bench/index.js)
 
 | index | Task Name             | ops/sec | Average Time (ns)  | Margin | Samples |
 | ----- | --------------------- | ------- | ------------------ | ------ | ------- |
