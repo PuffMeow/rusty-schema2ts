@@ -8,6 +8,7 @@ pub const DEFAULT_INDENT: i8 = 2;
 pub const DEFAULT_SEMI: bool = true;
 pub const DEFAULT_OPTIONAL: bool = true;
 pub const DEFAULT_GEN_COMMENT: bool = false;
+pub const DEFAULT_EXPOR: bool = true;
 pub const DEFAULT_IGNORE_KEYS: Vec<String> = vec![];
 
 impl Default for Config {
@@ -17,6 +18,7 @@ impl Default for Config {
       optional: Some(true),
       explain: Some("".to_string()),
       is_gen_comment: Some(false),
+      is_export: Some(true),
       indent: Some(2),
       semi: Some(true),
       ignore_keys: Some(vec![]),

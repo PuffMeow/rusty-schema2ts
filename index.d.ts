@@ -14,6 +14,8 @@ export interface IOptions {
   explain?: string
   /** Whether to automatically generate comments, default value is false */
   isGenComment?: boolean
+  /** Whether to export the interfaces and types */
+  isExport?: boolean
   /** Default value is 2 */
   indent?: number
   /** Enable semicolon, default value is true */

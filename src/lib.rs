@@ -5,8 +5,8 @@ use napi;
 use std::collections::HashMap;
 use std::collections::{HashSet, VecDeque};
 use structure::default_config::{
-  DEFAULT_ENUM_PREFFIX, DEFAULT_EXPLAIN, DEFAULT_GEN_COMMENT, DEFAULT_IGNORE_KEYS, DEFAULT_INDENT,
-  DEFAULT_OPTIONAL, DEFAULT_PARSE_ERROR_MESSAGE, DEFAULT_PREFFIX, DEFAULT_SEMI,
+  DEFAULT_ENUM_PREFFIX, DEFAULT_EXPLAIN, DEFAULT_EXPOR, DEFAULT_GEN_COMMENT, DEFAULT_IGNORE_KEYS,
+  DEFAULT_INDENT, DEFAULT_OPTIONAL, DEFAULT_PARSE_ERROR_MESSAGE, DEFAULT_PREFFIX, DEFAULT_SEMI,
 };
 use structure::Config;
 use structure::JsonSchema;
@@ -150,7 +150,12 @@ fn generate_root_interface(
   }
 
   interface_str.push_str(&format!(
-    "export interface {}{} {{\n",
+    "{}interface {}{} {{\n",
+    if opts.is_export.unwrap_or(DEFAULT_EXPOR) {
+      "export "
+    } else {
+      ""
+    },
     &opts.prefix.as_deref().unwrap_or(DEFAULT_PREFFIX),
     capitalize(name)
   ));
@@ -205,7 +210,12 @@ fn generate_root_interface(
 fn generate_enum(schema: &JsonSchema, key: &str, suffix_num: &str, opts: &Config) -> String {
   if let Some(enum_vals) = &schema.enum_vals {
     format!(
-      "export type {}{}{} = {}{}\n",
+      "{}type {}{}{} = {}{}\n",
+      if opts.is_export.unwrap_or(DEFAULT_EXPOR) {
+        "export "
+      } else {
+        ""
+      },
       opts
         .prefix_of_enum
         .as_deref()

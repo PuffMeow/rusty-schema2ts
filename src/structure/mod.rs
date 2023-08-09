@@ -20,6 +20,9 @@ pub struct Config {
   /// Whether to automatically generate comments, default value is false
   pub is_gen_comment: Option<bool>,
 
+  /// Whether to export the interfaces and types
+  pub is_export: Option<bool>,
+
   /// Default value is 2
   pub indent: Option<i8>,
 
