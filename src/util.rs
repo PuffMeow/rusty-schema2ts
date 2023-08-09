@@ -2,11 +2,12 @@ use crate::structure::{EnumTypes, JsonSchema};
 use regex::{self, Regex};
 
 // Make the first letter uppercase
+#[inline]
 pub fn capitalize(s: &str) -> String {
   let mut chars = s.chars();
   match chars.next() {
     Some(f) => f.to_uppercase().collect::<String>() + chars.as_str(),
-    None => String::new(),
+    None => "".to_string(),
   }
 }
 
@@ -25,6 +26,7 @@ pub fn parse_json(schema: &str) -> Option<JsonSchema> {
   }
 }
 
+#[inline]
 pub fn generate_comment(schema: &JsonSchema, indent: i8) -> String {
   let mut comment = String::new();
 
@@ -48,7 +50,7 @@ pub fn generate_comment(schema: &JsonSchema, indent: i8) -> String {
   if !comment.is_empty() {
     format!("{}/** {} */\n", get_indent(indent), comment)
   } else {
-    String::new()
+    "".to_string()
   }
 }
 

@@ -1,9 +1,9 @@
 use indexmap::IndexMap;
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 pub mod default_config;
 
 #[napi(object, js_name = "IOptions")]
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Deserialize, Debug)]
 pub struct Config {
   /// Interface prefix, default value is "I"
   pub prefix: Option<String>,
@@ -36,7 +36,7 @@ pub struct Config {
   pub ignore_keys: Option<Vec<String>>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Deserialize, Debug)]
 pub struct JsonSchema {
   pub title: Option<String>,
   #[serde(rename(deserialize = "type"))]
@@ -48,14 +48,14 @@ pub struct JsonSchema {
   pub description: Option<String>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Deserialize, Debug)]
 #[serde(untagged)]
 pub enum EnumTypes {
   EnumType(Vec<EnumType>),
   StringEnum(Vec<String>),
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Deserialize, Debug)]
 pub struct EnumType {
   pub title: Option<String>,
   pub value: Option<String>,

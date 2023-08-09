@@ -17,7 +17,13 @@ use util::{
 #[macro_use]
 extern crate napi_derive;
 
-#[napi(js_name = "schema2ts", ts_args_type = "schema: string, options?: IOptions")]
+#[global_allocator]
+static GLOBAL_MIMALLOC: GlobalMiMalloc = GlobalMiMalloc;
+
+#[napi(
+  js_name = "schema2ts",
+  ts_args_type = "schema: string, options?: IOptions"
+)]
 pub fn schema_2_ts(schema: String, options: Option<Config>) -> String {
   schema_to_ts(schema.as_str(), options)
 }
@@ -129,6 +135,7 @@ fn get_type(
   }
 }
 
+#[inline]
 fn generate_root_interface(
   schema: &JsonSchema,
   name: &str,
@@ -136,13 +143,13 @@ fn generate_root_interface(
   enum_type_key_num_map: &mut HashMap<String, i32>,
   opts: &Config,
 ) -> String {
-  let mut interface_str = Vec::new();
+  let mut interface_str = String::new();
 
   if opts.is_gen_comment.unwrap_or(DEFAULT_GEN_COMMENT) {
-    interface_str.push(generate_comment(schema, 0));
+    interface_str.push_str(&generate_comment(schema, 0));
   }
 
-  interface_str.push(format!(
+  interface_str.push_str(&format!(
     "export interface {}{} {{\n",
     &opts.prefix.as_deref().unwrap_or(DEFAULT_PREFFIX),
     capitalize(name)
@@ -165,13 +172,13 @@ fn generate_root_interface(
       );
       // generate comment
       if opts.is_gen_comment.unwrap_or(DEFAULT_GEN_COMMENT) {
-        interface_str.push(generate_comment(
+        interface_str.push_str(&generate_comment(
           prop,
           opts.indent.unwrap_or(DEFAULT_INDENT),
         ));
       }
 
-      interface_str.push(format!(
+      interface_str.push_str(&format!(
         "{}{}{}: {}{}\n",
         get_indent(opts.indent.unwrap_or(DEFAULT_INDENT)),
         key,
@@ -190,10 +197,11 @@ fn generate_root_interface(
     }
   }
 
-  interface_str.push("}\n".to_string());
-  interface_str.join("")
+  interface_str.push_str("}\n");
+  interface_str
 }
 
+#[inline]
 fn generate_enum(schema: &JsonSchema, key: &str, suffix_num: &str, opts: &Config) -> String {
   if let Some(enum_vals) = &schema.enum_vals {
     format!(
@@ -212,10 +220,11 @@ fn generate_enum(schema: &JsonSchema, key: &str, suffix_num: &str, opts: &Config
       }
     )
   } else {
-    String::new()
+    "".to_string()
   }
 }
 
+#[inline]
 fn generate_interface(
   schema: &JsonSchema,
   key: &str,

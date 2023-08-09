@@ -15,7 +15,7 @@ impl Default for Config {
     Config {
       parse_error_message: Some("// Parse schema error, please check your schema.".to_string()),
       optional: Some(true),
-      explain: Some(String::new()),
+      explain: Some("".to_string()),
       is_gen_comment: Some(false),
       indent: Some(2),
       semi: Some(true),
