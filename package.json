@@ -29,7 +29,8 @@
     "schema to typescript",
     "schema to ts",
     "schema to interface",
-    "schema to type"
+    "schema to type",
+    "native addon"
   ],
   "license": "MIT",
   "devDependencies": {
