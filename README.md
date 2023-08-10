@@ -1,14 +1,14 @@
-## Introduce
+## Introduction
 
 This is a tool that can help you transform your JSON Schema to TypeScript interface quickly🧲.
 
-It's written by Rust(napi-rs) and only support in Node.js(Support for all platforms except Android).
+It's written by Rust(napi-rs) and only support in Node.js.
 
 If you want the same feature that can work in Browser or all other platforms, you can see [schema2ts](https://github.com/PuffMeow/schema2ts).
 
 Git repository: [rusty-schema2ts](https://github.com/PuffMeow/rusty-schema2ts). If you like it, please give me a little star♥
 
-__The api of them are all the same.__
+**The api of them are all the same.**
 
 ## TypeScript vs Rust
 
@@ -18,22 +18,6 @@ You can find [benchmark here](https://github.com/PuffMeow/rusty-schema2ts/blob/m
 | ----- | --------------------- | ------- | ------------------ | ------ | ------- |
 | 0     | TypeScript: schema2ts | 2,796   | 357534.31021794415 | ±1.08% | 1399    |
 | 1     | Rust: rustySchema2ts  | 5,431   | 184122.05448994122 | ±0.29% | 2716    |
-
-## Support matrix
-
-|                              | node12 | node14 | node16 | node18 |
-| ---------------------------- | ------ | ------ | ------ | ------ |
-| Windows x64                  | ✓      | ✓      | ✓      | ✓      |
-| Windows x32                  | ✓      | ✓      | ✓      | ✓      |
-| Windows arm64                | ✓      | ✓      | ✓      | ✓      |
-| macOS x64                    | ✓      | ✓      | ✓      | ✓      |
-| macOS arm64 (m chips)        | ✓      | ✓      | ✓      | ✓      |
-| Linux x64 gnu (glibc 2.17)   | ✓      | ✓      | ✓      | ✓      |
-| Linux x64 musl               | ✓      | ✓      | ✓      | ✓      |
-| Linux arm gnu (glibc 2.17)   | ✓      | ✓      | ✓      | ✓      |
-| Linux arm64 gnu (glibc 2.17) | ✓      | ✓      | ✓      | ✓      |
-| Linux arm64 musl             | ✓      | ✓      | ✓      | ✓      |
-| FreeBSD x64                  | ✓      | ✓      | ✓      | ✓      |
 
 ## Install
 
@@ -67,9 +51,26 @@ import { schema2ts } from "@puffmeow/rusty-schema2ts";
 schema2ts(`your schema`, options);
 ```
 
-If you have a schema like this:
+## Options
+
+| key               | type     | required | default                                          | description                                                                                                                                                                                                                                                                                  |
+| ----------------- | -------- | -------- | ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| preffix           | string   | ×        | I                                                | Interface preffix, if you don't like this, you can give it a empty string                                                                                                                                                                                                                    |
+| preffixOfEnum     | string   | ×        | T                                                | Enum type preffix, if you don't like this, you can give it a empty string                                                                                                                                                                                                                    |
+| isGenComment      | boolean  | ×        | false                                            | Whether to automatically generate comments                                                                                                                                                                                                                                                   |
+| isExport          | boolean  | ×        | true                                             | Whether to export the interfaces and types                                                                                                                                                                                                                                                   |
+| indent            | number   | ×        | 2                                                | Code indent                                                                                                                                                                                                                                                                                  |
+| semi              | boolean  | ×        | true                                             | Is enable semicolon                                                                                                                                                                                                                                                                          |
+| optional          | boolean  | ×        | true                                             | If this is enabled, it will generate the optional interface, default value is true                                                                                                                                                                                                           |
+| ignoreKeys        | string[] | ×        | []                                               | If you don't want to generate the type of an attribute in a root object, you can pass in the key name of the corresponding attribute.<br /><br />Like this, ignoreKeys: ["firstName", "lastName"]<br /><br />Schema2ts will ignore the two attributes and doesn't generate the type of them. |
+| explain           | string   | ×        |                                                  | Display some comments at the top of the code                                                                                                                                                                                                                                                 |
+| parseErrorMessage | string   | ×        | // Parse schema error, please check your schema. | When parsing schema error, this message will be return                                                                                                                                                                                                                                       |
+
+## Example:
 
 ### Input schema
+
+If you have a schema like this:
 
 ```json
 {
@@ -158,7 +159,7 @@ If you have a schema like this:
 
 Finally it will output like this:
 
-```ts
+````ts
 export type THairColor = "color1" | "color2" | "color3";
 
 export interface ISchema {
@@ -188,22 +189,7 @@ export interface IArr3 {
   enen3?: boolean;
   enen4?: any;
 }
-```
-
-## Options
-
-| key               | type     | required | default                                          | description                                                  |
-| ----------------- | -------- | -------- | ------------------------------------------------ | ------------------------------------------------------------ |
-| preffix           | string   | ×        | I                                                | Interface preffix, if you don't like this, you can give it a empty string |
-| preffixOfEnum     | string   | ×        | T                                                | Enum type preffix, if you don't like this, you can give it a empty string |
-| isGenComment      | boolean  | ×        | false                                            | Whether to automatically generate comments                   |
-| isExport          | boolean  | ×        | true                                             | Whether to export the interfaces and types                   |
-| indent            | number   | ×        | 2                                                | Code indent                                                  |
-| semi              | boolean  | ×        | true                                             | Is enable semicolon                                          |
-| optional          | boolean  | ×        | true                                             | If this is enabled, it will generate the optional interface, default value is true |
-| ignoreKeys        | string[] | ×        | []                                               | If you don't want to generate the type of an attribute in a root object, you can pass in the key name of the corresponding attribute.<br /><br />Like this, ignoreKeys: ["firstName", "lastName"]<br /><br />Schema2ts will ignore the two attributes and doesn't generate the type of them. |
-| explain           | string   | ×        |                                                  | Display some comments at the top of the code                 |
-| parseErrorMessage | string   | ×        | // Parse schema error, please check your schema. | When parsing schema error, this message will be return       |
+```                                                                                                                                                                                                                                      |
 
 ## More examples
 
@@ -211,7 +197,7 @@ export interface IArr3 {
 
 ```ts
 schema2ts(`below json`, { isGenComment: true });
-```
+````
 
 #### input json
 
