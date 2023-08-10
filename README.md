@@ -8,7 +8,7 @@ If you want the same feature that can work in Browser or all other platforms, yo
 
 Git repository: [rusty-schema2ts](https://github.com/PuffMeow/rusty-schema2ts). If you like it, please give me a little star⭐.
 
-**The api of them are all the same.**
+**The api of them are all the same**.
 
 ## TypeScript vs Rust
 
