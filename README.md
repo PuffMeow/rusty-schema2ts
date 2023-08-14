@@ -159,7 +159,7 @@ If you have a schema like this:
 
 Finally it will output like this:
 
-````ts
+```ts
 export type THairColor = "color1" | "color2" | "color3";
 
 export interface ISchema {
@@ -189,7 +189,7 @@ export interface IArr3 {
   enen3?: boolean;
   enen4?: any;
 }
-```                                                                                                                                                                                                                                      |
+```
 
 ## More examples
 
