@@ -14,10 +14,11 @@ Git repository: [rusty-schema2ts](https://github.com/PuffMeow/rusty-schema2ts). 
 
 You can find [benchmark here](https://github.com/PuffMeow/rusty-schema2ts/blob/main/bench/index.js)
 
-| index | Task Name             | ops/sec | Average Time (ns)  | Margin | Samples |
-| ----- | --------------------- | ------- | ------------------ | ------ | ------- |
-| 0     | TypeScript: schema2ts | 2,796   | 357534.31021794415 | ±1.08% | 1399    |
-| 1     | Rust: rustySchema2ts  | 5,431   | 184122.05448994122 | ±0.29% | 2716    |
+| Task Name                        | ops/sec | Average Time (ns)  | Margin | Samples |
+| -------------------------------- | ------- | ------------------ | ------ | ------- |
+| Rust: rustySchema2ts             | 5,431   | 184122.05448994122 | ±0.29% | 2716    |
+| TypeScript: schema2ts            | 2,796   | 357534.31021794415 | ±1.08% | 1399    |
+| Other: json-schema-to-typescript | 1,890   | 528827.4841428385  | ±3.71% | 946     |
 
 ## Install
 
