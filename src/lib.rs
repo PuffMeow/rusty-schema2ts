@@ -67,14 +67,7 @@ fn schema_to_ts(schema: &str, options: Option<Config>) -> String {
     interfaces.push_front(opts.explain.unwrap_or(DEFAULT_EXPLAIN.to_string()));
   }
 
-  let mut output = Vec::from(interfaces).join("\n");
-
-  if !opts.semi.unwrap_or(DEFAULT_SEMI) {
-    // remove all semicolons
-    output = output.replace(';', "");
-  }
-
-  output
+  Vec::from(interfaces).join("\n")
 }
 
 fn get_type(
