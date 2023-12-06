@@ -56,8 +56,8 @@ schema2ts(`your schema`, options);
 
 | key               | type     | required | default                                          | description                                                                                                                                                                                                                                                                                  |
 | ----------------- | -------- | -------- | ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| preffix           | string   | ×        | I                                                | Interface preffix, if you don't like this, you can give it a empty string                                                                                                                                                                                                                    |
-| preffixOfEnum     | string   | ×        | T                                                | Enum type preffix, if you don't like this, you can give it a empty string                                                                                                                                                                                                                    |
+| prefix            | string   | ×        | I                                                | Interface prefix, if you don't like this, you can give it a empty string                                                                                                                                                                                                                     |
+| prefixOfEnum      | string   | ×        | T                                                | Enum type prefix, if you don't like this, you can give it a empty string                                                                                                                                                                                                                     |
 | isGenComment      | boolean  | ×        | false                                            | Whether to automatically generate comments                                                                                                                                                                                                                                                   |
 | isExport          | boolean  | ×        | true                                             | Whether to export the interfaces and types                                                                                                                                                                                                                                                   |
 | indent            | number   | ×        | 2                                                | Code indent                                                                                                                                                                                                                                                                                  |
@@ -198,7 +198,7 @@ export interface IArr3 {
 
 ```ts
 schema2ts(`below json`, { isGenComment: true });
-````
+```
 
 #### input json
 

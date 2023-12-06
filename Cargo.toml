@@ -7,13 +7,14 @@ version = "0.0.1"
 crate-type = ["cdylib"]
 
 [dependencies]
+anyhow = "1.0.75"
 indexmap = {version = "2.0.0", features = ["serde"]}
 mimalloc-rust = {version = "0.2"}
 napi = {version = "2.12.2", default-features = false, features = ["napi4"]}
 napi-derive = "2.12.2"
 regex = "1.9.1"
-serde = {version = "1.0", features = ["derive"]}
-serde_json = {version = "1.0.104"}
+serde = {version = "1", features = ["derive"]}
+serde_json = {version = "1"}
 
 [build-dependencies]
 napi-build = "2.0.1"

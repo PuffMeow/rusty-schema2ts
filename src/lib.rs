@@ -2,21 +2,27 @@
 mod structure;
 mod util;
 use napi;
+use napi::bindgen_prelude::Buffer;
 use std::collections::HashMap;
 use std::collections::{HashSet, VecDeque};
 use structure::default_config::{
-  DEFAULT_ENUM_PREFFIX, DEFAULT_EXPLAIN, DEFAULT_EXPOR, DEFAULT_GEN_COMMENT, DEFAULT_IGNORE_KEYS,
-  DEFAULT_INDENT, DEFAULT_OPTIONAL, DEFAULT_PARSE_ERROR_MESSAGE, DEFAULT_PREFFIX, DEFAULT_SEMI,
+  DEFAULT_ENUM_PREFIX, DEFAULT_EXPLAIN, DEFAULT_EXPORT, DEFAULT_GEN_COMMENT, DEFAULT_IGNORE_KEYS,
+  DEFAULT_INDENT, DEFAULT_OPTIONAL, DEFAULT_PARSE_ERROR_MESSAGE, DEFAULT_PREFIX, DEFAULT_SEMI,
 };
 use structure::Config;
 use structure::JsonSchema;
 use util::generate_enum_variants;
 use util::{
-  capitalize, check_is_valid_title, generate_comment, get_indent, parse_json, remove_comment,
+  capitalize, check_is_valid_title, generate_comment, get_deserialized, get_indent, parse_json,
+  remove_comment,
 };
 #[macro_use]
 extern crate napi_derive;
 
+#[cfg(all(
+  not(all(target_os = "linux", target_env = "musl", target_arch = "aarch64")),
+  not(debug_assertions)
+))]
 #[global_allocator]
 static ALLOC: mimalloc_rust::GlobalMiMalloc = mimalloc_rust::GlobalMiMalloc;
 
@@ -24,8 +30,11 @@ static ALLOC: mimalloc_rust::GlobalMiMalloc = mimalloc_rust::GlobalMiMalloc;
   js_name = "schema2ts",
   ts_args_type = "schema: string, options?: IOptions"
 )]
-pub fn schema_2_ts(schema: String, options: Option<Config>) -> String {
-  schema_to_ts(schema.as_str(), options)
+pub fn schema_2_ts(schema: String, options: Buffer) -> napi::Result<String> {
+  let options: Config = get_deserialized(&options)?;
+  let result = schema_to_ts(schema.as_str(), Some(options));
+
+  Ok(result)
 }
 
 fn schema_to_ts(schema: &str, options: Option<Config>) -> String {
@@ -107,7 +116,7 @@ fn get_type(
           opts
             .prefix_of_enum
             .as_deref()
-            .unwrap_or(DEFAULT_ENUM_PREFFIX),
+            .unwrap_or(DEFAULT_ENUM_PREFIX),
           capitalized_key
         )
       } else {
@@ -116,12 +125,12 @@ fn get_type(
     }
     Some("object") => format!(
       "{}{}",
-      opts.prefix.as_deref().unwrap_or(DEFAULT_PREFFIX),
+      opts.prefix.as_deref().unwrap_or(DEFAULT_PREFIX),
       capitalized_key
     ),
     Some("array") => format!(
       "{}{}[]",
-      opts.prefix.as_deref().unwrap_or(DEFAULT_PREFFIX),
+      opts.prefix.as_deref().unwrap_or(DEFAULT_PREFIX),
       capitalized_key
     ),
     _ => "any".to_string(),
@@ -144,12 +153,12 @@ fn generate_root_interface(
 
   interface_str.push_str(&format!(
     "{}interface {}{} {{\n",
-    if opts.is_export.unwrap_or(DEFAULT_EXPOR) {
+    if opts.is_export.unwrap_or(DEFAULT_EXPORT) {
       "export "
     } else {
       ""
     },
-    &opts.prefix.as_deref().unwrap_or(DEFAULT_PREFFIX),
+    &opts.prefix.as_deref().unwrap_or(DEFAULT_PREFIX),
     capitalize(name)
   ));
 
@@ -204,7 +213,7 @@ fn generate_enum(schema: &JsonSchema, key: &str, suffix_num: &str, opts: &Config
   if let Some(enum_vals) = &schema.enum_vals {
     format!(
       "{}type {}{}{} = {}{}\n",
-      if opts.is_export.unwrap_or(DEFAULT_EXPOR) {
+      if opts.is_export.unwrap_or(DEFAULT_EXPORT) {
         "export "
       } else {
         ""
@@ -212,7 +221,7 @@ fn generate_enum(schema: &JsonSchema, key: &str, suffix_num: &str, opts: &Config
       opts
         .prefix_of_enum
         .as_deref()
-        .unwrap_or(DEFAULT_ENUM_PREFFIX),
+        .unwrap_or(DEFAULT_ENUM_PREFIX),
       capitalize(key),
       suffix_num,
       generate_enum_variants(enum_vals),

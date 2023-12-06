@@ -1,9 +1,10 @@
 use indexmap::IndexMap;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 pub mod default_config;
 
 #[napi(object, js_name = "IOptions")]
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Config {
   /// Interface prefix, default value is "I"
   pub prefix: Option<String>,

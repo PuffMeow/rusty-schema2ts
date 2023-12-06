@@ -1,14 +1,14 @@
 use super::Config;
 
 pub const DEFAULT_EXPLAIN: &str = "";
-pub const DEFAULT_PREFFIX: &str = "I";
-pub const DEFAULT_ENUM_PREFFIX: &str = "T";
+pub const DEFAULT_PREFIX: &str = "I";
+pub const DEFAULT_ENUM_PREFIX: &str = "T";
 pub const DEFAULT_PARSE_ERROR_MESSAGE: &str = "// Parse schema error, please check your schema.";
 pub const DEFAULT_INDENT: i8 = 2;
 pub const DEFAULT_SEMI: bool = true;
 pub const DEFAULT_OPTIONAL: bool = true;
 pub const DEFAULT_GEN_COMMENT: bool = false;
-pub const DEFAULT_EXPOR: bool = true;
+pub const DEFAULT_EXPORT: bool = true;
 pub const DEFAULT_IGNORE_KEYS: Vec<String> = vec![];
 
 impl Default for Config {

@@ -1,5 +1,20 @@
+use std::any::type_name;
+
 use crate::structure::{EnumTypes, JsonSchema};
+use anyhow::Context;
+use napi::Status;
 use regex::{self, Regex};
+use serde::de::DeserializeOwned;
+
+impl<T> MapErr<T> for Result<T, anyhow::Error> {}
+
+pub trait MapErr<T>: Into<Result<T, anyhow::Error>> {
+  fn convert_err(self) -> napi::Result<T> {
+    self
+      .into()
+      .map_err(|err| napi::Error::new(Status::GenericFailure, format!("{:?}", err)))
+  }
+}
 
 // Make the first letter uppercase
 #[inline]
@@ -122,4 +137,33 @@ pub fn check_is_valid_title(s: Option<&str>) -> bool {
   } else {
     false
   }
+}
+
+pub fn deserialize_json<T>(json: &str) -> Result<T, serde_json::Error>
+where
+  T: DeserializeOwned,
+{
+  let mut deserializer = serde_json::Deserializer::from_str(json);
+
+  T::deserialize(&mut deserializer)
+}
+
+pub fn get_deserialized<T, B>(buffer: B) -> napi::Result<T>
+where
+  T: DeserializeOwned,
+  B: AsRef<[u8]>,
+{
+  let mut deserializer = serde_json::Deserializer::from_slice(buffer.as_ref());
+
+  let v = T::deserialize(&mut deserializer)
+    .with_context(|| {
+      format!(
+        "Failed to deserialize buffer as {}\nJSON: {}",
+        type_name::<T>(),
+        String::from_utf8_lossy(buffer.as_ref())
+      )
+    })
+    .convert_err()?;
+
+  Ok(v)
 }

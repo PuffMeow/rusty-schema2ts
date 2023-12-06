@@ -1,6 +1,6 @@
 {
   "name": "@puffmeow/rusty-schema2ts",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "main": "index.js",
   "types": "index.d.ts",
   "files": [
@@ -51,7 +51,7 @@
   },
   "scripts": {
     "artifacts": "napi artifacts",
-    "build": "napi build --platform --release",
+    "build": "napi build --platform --release --js binding.js",
     "build:debug": "napi build --platform",
     "prepublishOnly": "napi prepublish -t npm",
     "test": "vitest run",
