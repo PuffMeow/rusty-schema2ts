@@ -32,8 +32,7 @@
     "schema to ts",
     "schema to interface",
     "schema to type",
-    "native addon",
-    "high performance"
+    "rust native addon"
   ],
   "license": "MIT",
   "devDependencies": {
