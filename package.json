@@ -41,6 +41,7 @@
     "@puffmeow/schema2ts": "^0.2.4",
     "@types/node": "^20.4.9",
     "json-schema-to-typescript": "^13.0.2",
+    "prettier": "^3.1.1",
     "tinybench": "^2.5.0",
     "vite": "^4.4.9",
     "vitest": "^0.34.1"

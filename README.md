@@ -39,7 +39,7 @@ yarn add @puffmeow/rusty-schema2ts
 It's really easy to use.
 
 ```ts
-import { schema2ts } from "@puffmeow/rusty-schema2ts";
+import { schema2ts } from '@puffmeow/rusty-schema2ts';
 
 // The "options" we will introduce later
 // schema2ts(schema: string, options?: IOptions): string
@@ -155,7 +155,7 @@ If you have a schema like this:
 Finally it will output like this:
 
 ```ts
-export type THairColor = "color1" | "color2" | "color3";
+export type THairColor = 'color1' | 'color2' | 'color3';
 
 export interface ISchema {
   firstName?: string;
@@ -296,7 +296,7 @@ schema2ts(`below json`, { isGenComment: true });
 #### output
 
 ```ts
-export type THairColor = "color1" | "color2" | "color3";
+export type THairColor = 'color1' | 'color2' | 'color3';
 
 /** Schema */
 export interface ISchema {
@@ -349,7 +349,7 @@ export interface IArr3 {
 
 ```ts
 schema2ts(`below json`, {
-  ignoreKeys: ["firstName", "obj", "hairColor", "arr"],
+  ignoreKeys: ['firstName', 'obj', 'hairColor', 'arr'],
   isGenComment: true,
   optional: false,
 });

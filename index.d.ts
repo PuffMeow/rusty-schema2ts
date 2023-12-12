@@ -5,29 +5,29 @@
 
 export interface IOptions {
   /** Interface prefix, default value is "I" */
-  prefix?: string
+  prefix?: string;
   /** Enum type prefix, default value is "T" */
-  prefixOfEnum?: string
+  prefixOfEnum?: string;
   /** When parse schema error, this message will be returned */
-  parseErrorMessage?: string
+  parseErrorMessage?: string;
   /** Display comments at the top of the code */
-  explain?: string
+  explain?: string;
   /** Whether to automatically generate comments, default value is false */
-  isGenComment?: boolean
+  isGenComment?: boolean;
   /** Whether to export the interfaces and types */
-  isExport?: boolean
+  isExport?: boolean;
   /** Default value is 2 */
-  indent?: number
+  indent?: number;
   /** Enable semicolon, default value is true */
-  semi?: boolean
+  semi?: boolean;
   /** If this is enabled, it will generate the optional interface, default value is true */
-  optional?: boolean
+  optional?: boolean;
   /**
    * If you don't want to generate the type of an attribute in a root object,
    * you can pass in the key name of the corresponding attribute.
    * Like this, ignore_keys: ["firstName", "lastName"]
    * Schema2ts will ignore the two attributes and doesn't generate the type of them.
    */
-  ignoreKeys?: Array<string>
+  ignoreKeys?: Array<string>;
 }
-export function schema2ts(schema: string, options?: IOptions): string
+export function schema2ts(schema: string, options?: IOptions): string;

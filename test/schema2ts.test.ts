@@ -1,10 +1,10 @@
-import { describe, expect, test } from "vitest";
-import fs from "fs";
-import path from "path";
-import { schema2ts, IOptions } from "../index";
+import { describe, expect, test } from 'vitest';
+import fs from 'fs';
+import path from 'path';
+import { schema2ts, IOptions } from '../index';
 
 const readFile = (pathToFind: string) =>
-  fs.readFileSync(path.join(__dirname, pathToFind), "utf-8");
+  fs.readFileSync(path.join(__dirname, pathToFind), 'utf-8');
 
 const expectCorrectOutput = (
   inputPath: string,
