@@ -1,6 +1,6 @@
 {
   "name": "@puffmeow/rusty-schema2ts",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "main": "index.js",
   "types": "index.d.ts",
   "files": [
